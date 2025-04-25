@@ -19,7 +19,6 @@ const eslintConfig = [
     'prettier',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:playwright/recommended'
   ),
   {
     plugins: {
