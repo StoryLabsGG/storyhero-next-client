@@ -11,6 +11,7 @@ const buttonVariants = cva(
       variant: {
         default:
           'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+        storyhero: 'bg-storyhero text-white shadow-xs hover:bg-storyhero-dark',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:
@@ -20,12 +21,18 @@ const buttonVariants = cva(
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        gooeyRight:
+          'text-white relative bg-storyhero z-0 overflow-hidden transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:translate-x-[150%] before:translate-y-[150%] before:scale-[2.5] before:rounded-[100%] before:[background:var(--storyhero-dark)] before:transition-transform before:duration-1000 hover:before:translate-x-[0%] hover:before:translate-y-[0%] hover:text-white',
+        gooeyLeft:
+          'text-white relative bg-storyhero z-0 overflow-hidden transition-all duration-500 after:absolute after:inset-0 after:-z-10 after:translate-x-[-150%] after:translate-y-[150%] after:scale-[2.5] after:rounded-[100%] after:[background:var(--storyhero-dark)] after:transition-transform after:duration-1000 hover:after:translate-x-[0%] hover:after:translate-y-[0%] hover:text-white',
       },
       size: {
-        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
-        sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
-        icon: 'size-9',
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 rounded-md px-3',
+        lg: 'h-11 rounded-md px-8',
+        xl: 'h-14 rounded-lg px-10 font-bold',
+        '2xl': 'h-16 rounded-lg px-12 font-bold',
+        icon: 'h-10 w-10',
       },
     },
     defaultVariants: {
