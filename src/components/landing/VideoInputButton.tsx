@@ -15,7 +15,7 @@ export default function VideoInputButton() {
       <Input
         value={link}
         onChange={(e) => setLink(e.target.value)}
-        className="text-muted-foreground h-14 min-h-12 min-w-full bg-gray-800 text-base placeholder:text-gray-300 md:min-h-full"
+        className="h-14 min-h-12 min-w-full bg-gray-800 text-base placeholder:text-gray-300 md:min-h-full"
         placeholder={placeholder}
       />
 

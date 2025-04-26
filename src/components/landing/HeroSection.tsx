@@ -3,9 +3,9 @@ import { WordRotate } from '@/components/ui/word-rotate';
 
 export default function HeroSection() {
   return (
-    <section className="relative flex w-full flex-col items-center justify-center gap-8 py-10 text-center md:py-16">
+    <section className="relative flex w-full flex-col items-center justify-center gap-8 text-center">
       <div className="relative flex flex-col items-center space-y-8">
-        <h1 className="flex flex-col items-center space-y-4 text-4xl font-extrabold md:gap-5 md:text-7xl">
+        <h1 className="flex flex-col items-center space-y-4 text-4xl leading-tight font-extrabold md:gap-5 md:text-6xl">
           <span>Turn your long videos</span>
           <div className="flex items-center space-x-2">
             <span>into</span>
