@@ -90,8 +90,8 @@ export async function POST(request: Request) {
         userId,
         compositionId: compositionId,
         cookiesKey: cookiesKey ?? null,
-        maxShorts: maxShorts ?? 3,
-        maxDuration: maxDuration ?? 60,
+        maxShorts: maxShorts ?? 6,
+        maxDuration: maxDuration ?? 30,
       },
     });
 
