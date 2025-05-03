@@ -12,6 +12,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import {
   Collapsible,
@@ -83,12 +84,46 @@ const bottomItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const isActivePath = (path: string) => {
     if (path === '/' && pathname === '/') {
       return true;
     }
     return path !== '/' && pathname.startsWith(path);
+  };
+
+  const formatDisplayName = (
+    name: string | null | undefined,
+    email: string | null | undefined
+  ) => {
+    if (name) {
+      return name.length > 15 ? `${name.substring(0, 12)}...` : name;
+    }
+
+    if (!email) return 'User';
+
+    if (email.length > 12) {
+      const atIndex = email.indexOf('@');
+      if (atIndex > 0) {
+        return `${email.substring(0, Math.min(8, atIndex))}@${email.substring(atIndex + 1, atIndex + 4)}...`;
+      }
+      return `${email.substring(0, 8)}...`;
+    }
+
+    return email;
+  };
+
+  const getInitial = (
+    name: string | null | undefined,
+    email: string | null | undefined
+  ) => {
+    if (name && name.trim().length > 0) {
+      return name.charAt(0).toUpperCase();
+    }
+
+    if (!email) return 'U';
+    return email.charAt(0).toUpperCase();
   };
 
   return (
@@ -108,12 +143,15 @@ export function AppSidebar() {
           <div className="flex flex-col overflow-hidden rounded-lg border border-neutral-600/20">
             <div className="flex items-center bg-neutral-800/10 p-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-sm font-semibold text-white shadow-sm">
-                R
+                {getInitial(session?.user?.name, session?.user?.email)}
               </div>
               <div className="ml-3 flex-1">
                 <div className="flex items-center justify-between">
                   <span className="text-foreground truncate text-sm font-medium">
-                    ricky@sto...
+                    {formatDisplayName(
+                      session?.user?.name,
+                      session?.user?.email
+                    )}
                   </span>
                   <span className="text-foreground/80 flex items-center rounded-full bg-neutral-700/20 px-2 py-0.5 text-xs">
                     <span className="relative mr-1.5 flex h-1.5 w-1.5">
@@ -128,10 +166,10 @@ export function AppSidebar() {
             <div className="border-t border-neutral-600/15 bg-neutral-800/5 px-3 py-2.5">
               <div className="mb-1.5 flex items-center justify-between text-xs font-medium">
                 <span className="text-foreground/70">Storage</span>
-                <span className="text-foreground/80">2.4/5GB</span>
+                <span className="text-foreground/80">0 / 5 GB</span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-neutral-700/20">
-                <div className="h-full w-[48%] rounded-full bg-gradient-to-r from-blue-500 to-violet-500"></div>
+                <div className="h-full w-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500"></div>
               </div>
             </div>
           </div>
