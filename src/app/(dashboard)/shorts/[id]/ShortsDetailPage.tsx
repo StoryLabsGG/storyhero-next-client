@@ -25,7 +25,7 @@ interface Short {
   hook: string;
   outputKey?: string;
   completedAt?: string;
-  confidence: number;
+  confidence?: number;
   processingTime?: {
     ffmpeg: number;
     upload: number;

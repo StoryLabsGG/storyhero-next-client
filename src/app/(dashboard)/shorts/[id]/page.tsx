@@ -57,7 +57,9 @@ async function getShortsJob(id: string) {
           ? `${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${short.M.outputKey.S}`
           : undefined,
         completedAt: short.M.completedAt?.S,
-        confidence: Number(short.M.confidence.N),
+        confidence: short.M.confidence?.N
+          ? Number(short.M.confidence.N)
+          : undefined,
         processingTime: short.M.processingTime?.M
           ? {
               ffmpeg: Number(short.M.processingTime.M.ffmpeg.N),
