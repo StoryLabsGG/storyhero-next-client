@@ -1,5 +1,6 @@
 import { AppSidebar } from '@/components/shared/Sidebar';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import Particles from '@/components/ui/particles';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 export default function DashboardLayout({
   children,
@@ -8,11 +9,15 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
+      <Particles
+        className="fixed inset-0 h-full w-full"
+        quantity={100}
+        staticity={30}
+        ease={20}
+        color="#EA580C"
+      />
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
+      <main>{children}</main>
     </SidebarProvider>
   );
 }

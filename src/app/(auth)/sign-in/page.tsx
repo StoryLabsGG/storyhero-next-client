@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { Suspense, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { Suspense, useEffect, useState } from 'react';
 
 import Logo from '@/components/shared/Logo';
 import { Button } from '@/components/ui/button';
@@ -14,14 +14,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
 // Create a separate component that uses useSearchParams
 function SignInContent() {
+  const { data: session } = useSession();
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (session) {
+      router.push(callbackUrl);
+    }
+  }, [session, router, callbackUrl]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);

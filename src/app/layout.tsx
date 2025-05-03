@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 
+import AuthProvider from '@/components/shared/AuthProvider';
+
 const poppins = Poppins({
   variable: '--font-poppins',
   subsets: ['latin'],
@@ -19,8 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.variable} dark antialiased`}>{children}</body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className={`${poppins.variable} dark antialiased`}>
+          {children}
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

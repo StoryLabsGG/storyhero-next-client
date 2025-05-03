@@ -7,6 +7,7 @@ import { dynamoDbClient } from '@/lib/aws';
 const ddbDocClient = DynamoDBDocument.from(dynamoDbClient);
 
 const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -14,8 +15,8 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/auth/sign-in',
-    error: '/auth/error',
+    signIn: '/sign-in',
+    error: '/error',
   },
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -33,7 +34,6 @@ const authOptions: NextAuthOptions = {
         });
 
         if (!existingUser.Items?.length) {
-          // Create new user from Google sign-in
           await ddbDocClient.put({
             TableName: process.env.USERS_TABLE_NAME!,
             Item: {
@@ -64,11 +64,13 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
+    async redirect({ url, baseUrl }) {
+      return `${baseUrl}/dashboard`;
+    },
   },
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export { authOptions };
