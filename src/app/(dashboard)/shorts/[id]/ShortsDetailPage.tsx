@@ -223,105 +223,117 @@ export default function ShortsDetailPage({ shortsJob }: ShortsDetailPageProps) {
           </CardContent>
         </Card> */}
 
-        {/* Shorts Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {shortsJob.shorts.map((shortItem) => (
-            <Card
-              key={shortItem.id}
-              className="bg-storyhero-bg-elevated group overflow-hidden border-0 transition-all hover:-translate-y-1 hover:shadow-md"
-            >
-              <CardContent className="p-0">
-                {/* Video Preview */}
-                <div className="bg-storyhero-bg-higher relative aspect-[9/16] w-full">
-                  {shortItem.status.toLowerCase() === 'completed' &&
-                  shortItem.outputKey ? (
-                    <video
-                      src={shortItem.outputKey}
-                      controls
-                      className="h-full w-full object-contain"
-                    />
-                  ) : shortItem.status === 'processing' ? (
-                    <div className="bg-storyhero-bg-higher absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <Loader2Icon className="text-storyhero-accent-indigo mx-auto h-8 w-8 animate-spin" />
-                        <p className="text-storyhero-text-secondary mt-4">
-                          Processing...
+        {/* Show loading indicator when job is processing or pending */}
+        {overallStatus === 'processing' || shortsJob.status === 'pending' ? (
+          <div className="flex h-64 items-center justify-center">
+            <div className="text-center">
+              <Loader2Icon className="text-storyhero-accent-indigo mx-auto h-12 w-12 animate-spin" />
+              <p className="text-storyhero-text-secondary mt-4 text-lg">
+                Processing your shorts...
+              </p>
+            </div>
+          </div>
+        ) : (
+          /* Shorts Grid */
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {shortsJob.shorts.map((shortItem) => (
+              <Card
+                key={shortItem.id}
+                className="bg-storyhero-bg-elevated group overflow-hidden border-0 transition-all hover:-translate-y-1 hover:shadow-md"
+              >
+                <CardContent className="p-0">
+                  {/* Video Preview */}
+                  <div className="bg-storyhero-bg-higher relative aspect-[9/16] w-full">
+                    {shortItem.status.toLowerCase() === 'completed' &&
+                    shortItem.outputKey ? (
+                      <video
+                        src={shortItem.outputKey}
+                        controls
+                        className="h-full w-full object-contain"
+                      />
+                    ) : shortItem.status === 'processing' ? (
+                      <div className="bg-storyhero-bg-higher absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <Loader2Icon className="text-storyhero-accent-indigo mx-auto h-8 w-8 animate-spin" />
+                          <p className="text-storyhero-text-secondary mt-4">
+                            Processing...
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-storyhero-bg-higher absolute inset-0 flex items-center justify-center">
+                        <p className="text-storyhero-text-secondary">
+                          {shortItem.status === 'failed'
+                            ? 'Processing failed'
+                            : 'Video not available'}
                         </p>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="bg-storyhero-bg-higher absolute inset-0 flex items-center justify-center">
-                      <p className="text-storyhero-text-secondary">
-                        {shortItem.status === 'failed'
-                          ? 'Processing failed'
-                          : 'Video not available'}
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Short Info */}
-                <div className="p-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="text-storyhero-text-primary truncate font-medium">
-                      {shortItem.id.substring(0, 10)}...
-                    </span>
-                    {getStatusBadge(shortItem.status)}
+                    )}
                   </div>
-                  <p className="text-storyhero-text-secondary mb-2 line-clamp-2 text-sm">
-                    {shortItem.hook}
-                  </p>
-                  <div className="text-storyhero-text-muted space-y-1 text-xs">
-                    <p>
-                      Duration: {shortItem.durationSeconds}s (
-                      {shortItem.startTime} - {shortItem.endTime})
+
+                  {/* Short Info */}
+                  <div className="p-4">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-storyhero-text-primary truncate font-medium">
+                        {shortItem.id.substring(0, 10)}...
+                      </span>
+                      {getStatusBadge(shortItem.status)}
+                    </div>
+                    <p className="text-storyhero-text-secondary mb-2 line-clamp-2 text-sm">
+                      {shortItem.hook}
                     </p>
-                    {shortItem.completedAt && (
+                    <div className="text-storyhero-text-muted space-y-1 text-xs">
                       <p>
-                        Completed:{' '}
-                        {new Date(shortItem.completedAt).toLocaleString()}
+                        Duration: {shortItem.durationSeconds}s (
+                        {shortItem.startTime} - {shortItem.endTime})
                       </p>
-                    )}
-                    {shortItem.processingTime && (
-                      <p>
-                        Processing: {Math.round(shortItem.processingTime.total)}
-                        s
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="mt-4 flex gap-2">
-                    {shortItem.status === 'completed' &&
-                      shortItem.outputKey && (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              window.open(shortItem.outputKey, '_blank')
-                            }
-                            className="border-storyhero-bg-higher text-storyhero-text-secondary hover:text-storyhero-text-primary bg-transparent"
-                          >
-                            <DownloadIcon className="mr-1 h-4 w-4" />
-                            Download
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="border-storyhero-bg-higher text-storyhero-text-secondary hover:text-storyhero-text-primary bg-transparent"
-                          >
-                            <ShareIcon className="mr-1 h-4 w-4" />
-                            Share
-                          </Button>
-                        </>
+                      {shortItem.completedAt && (
+                        <p>
+                          Completed:{' '}
+                          {new Date(shortItem.completedAt).toLocaleString()}
+                        </p>
                       )}
+                      {shortItem.processingTime && (
+                        <p>
+                          Processing:{' '}
+                          {Math.round(shortItem.processingTime.total)}s
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="mt-4 flex gap-2">
+                      {shortItem.status === 'completed' &&
+                        shortItem.outputKey && (
+                          <>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                window.open(shortItem.outputKey, '_blank')
+                              }
+                              className="border-storyhero-bg-higher text-storyhero-text-secondary hover:text-storyhero-text-primary bg-transparent"
+                            >
+                              <DownloadIcon className="mr-1 h-4 w-4" />
+                              Download
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-storyhero-bg-higher text-storyhero-text-secondary hover:text-storyhero-text-primary bg-transparent"
+                            >
+                              <ShareIcon className="mr-1 h-4 w-4" />
+                              Share
+                            </Button>
+                          </>
+                        )}
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

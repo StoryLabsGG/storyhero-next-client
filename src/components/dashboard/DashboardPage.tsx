@@ -121,7 +121,7 @@ export default function DashboardPage() {
       {/* Main content - adjusted padding */}
       <main className="w-full px-4 py-6">
         <div className="mx-auto mt-12 mb-16 flex max-w-6xl justify-center">
-          <div className="bg-background relative w-full space-y-8 lg:w-[50%]">
+          <div className="bg-background relative w-[50%] w-full space-y-8">
             <VideoUploader
               isLoading={isLoading}
               setIsLoading={setIsLoading}
