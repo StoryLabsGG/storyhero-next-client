@@ -2,15 +2,13 @@ import FeatureCard from './FeatureCard';
 
 const features = [
   {
-    title: 'Advanced video analysis',
-    description:
-      'AI-powered analysis to identify key moments and engagement opportunities in your content.',
+    title: 'Text hooks',
+    description: 'Generate scroll-stopping text hooks that are relevant.',
     iconName: 'analysis-icon',
   },
   {
     title: 'Moment and storyline detection',
-    description:
-      'Automatically detect compelling moments and craft engaging narratives for your shorts.',
+    description: 'Take the most viral-worthy parts of your video.',
     iconName: 'storyline-icon',
   },
   {
@@ -32,7 +30,7 @@ export default function FeaturesSection() {
     <div>
       <div className="flex flex-col items-center justify-center space-y-4 text-center">
         <h1 className="text-4xl font-bold md:text-5xl">
-          Let AI automate your shorts workflow
+          Everything you need to make high-quality shorts
         </h1>
         <p className="text-muted-foreground w-[75%] text-sm md:w-full md:text-xl">
           So you can focus on what matters most.

@@ -22,10 +22,13 @@ export default function NavButtons() {
       ) : (
         <Button
           onClick={() => router.push('/sign-in')}
-          variant="default"
-          className="bg-storyhero hover:bg-storyhero/80 text-white"
+          variant="secondary"
+          className="hover:bg-storyhero group transition-all duration-200 hover:text-white"
         >
-          Sign In
+          <span className="group-hover:hidden">Sign In</span>
+          <span className="hidden group-hover:inline">
+            Sign In - It&apos;s Free
+          </span>
         </Button>
       )}
     </div>

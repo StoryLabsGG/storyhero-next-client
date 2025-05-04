@@ -62,10 +62,10 @@ function SignInContent() {
       <Card className="w-full max-w-md border-gray-800 bg-[#1A1A1A] text-white">
         <CardHeader className="space-y-2">
           <CardTitle className="text-center text-3xl font-bold text-white">
-            Finish signing up to get your free clips
+            Finish signing up to start creating shorts!
           </CardTitle>
           <CardDescription className="text-center text-gray-400">
-            Free plan available. No credit card required.
+            It&apos;s time to begin your content journey.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

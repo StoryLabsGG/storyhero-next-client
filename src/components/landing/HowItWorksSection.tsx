@@ -45,7 +45,7 @@ export default function HowItWorksSection() {
           </div>
           <h3 className="mb-2 text-xl font-bold">Generate Clips</h3>
           <p className="text-gray-400">
-            Get auto-generated clips or customize them further.
+            Get high-quality clips with captions, backgrounds, and text hooks.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export default function HowItWorksSection() {
           </div>
           <h3 className="mb-2 text-xl font-bold">Schedule & Share</h3>
           <p className="text-gray-400">
-            Connect accounts and schedule posts across platforms.
+            Connect accounts and schedule posts directly to TikTok.
           </p>
         </div>
       </div>

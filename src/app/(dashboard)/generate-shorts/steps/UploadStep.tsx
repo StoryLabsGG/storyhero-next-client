@@ -44,15 +44,7 @@ export default function UploadStep({ setLoading, next }: StepComponentProps) {
       backgroundColor: '#ffffff',
       backgroundStyle: 'solid',
       aspectRatio: '9:16',
-    },
-    {
-      id: 'preset-3',
-      name: 'Instagram Story',
-      description: 'Stylish format for Instagram stories',
-      captionStyle: 'captions',
-      backgroundColor: '#f0f0f0',
-      backgroundStyle: 'gradient',
-      aspectRatio: '9:16',
+      previewUrl: `${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/public-assets/presets/youtube.mp4`,
     },
   ];
 
@@ -94,25 +86,44 @@ export default function UploadStep({ setLoading, next }: StepComponentProps) {
     [form]
   );
 
+  // Check if all required fields are filled
+  const checkReadyForNextStep = useCallback(() => {
+    const url = form.getValues('url');
+    const file = form.getValues('file');
+    const preset = form.getValues('selectedPresetId');
+
+    // Check if we have either a URL or a file, and a preset is selected
+    const isReady = Boolean((url || file) && preset);
+    setIsReadyForNextStep(isReady);
+  }, [form]);
+
   const handlePresetChange = useCallback(
     (presetId: string) => {
       setSelectedPresetId(presetId);
       form.setValue('selectedPresetId', presetId);
 
-      // Find the selected preset
-      const selectedPreset = presets.find((preset) => preset.id === presetId);
-      if (selectedPreset) {
-        // Update form with preset values
-        form.setValue('aspectRatio', selectedPreset.aspectRatio);
-        form.setValue('captionStyle', selectedPreset.captionStyle);
-        form.setValue('backgroundColor', selectedPreset.backgroundColor);
-        form.setValue('backgroundStyle', selectedPreset.backgroundStyle);
+      // Handle the "custom-preset" option differently
+      if (presetId === 'custom-preset') {
+        // Set values for custom preset, or leave as defaults
+        form.setValue('aspectRatio', '9:16'); // Default aspect ratio
+        form.setValue('captionStyle', 'auto'); // Default caption style
+        // Other default settings...
+      } else {
+        // Find the selected preset
+        const selectedPreset = presets.find((preset) => preset.id === presetId);
+        if (selectedPreset) {
+          // Update form with preset values
+          form.setValue('aspectRatio', selectedPreset.aspectRatio);
+          form.setValue('captionStyle', selectedPreset.captionStyle);
+          form.setValue('backgroundColor', selectedPreset.backgroundColor);
+          form.setValue('backgroundStyle', selectedPreset.backgroundStyle);
+        }
       }
 
       // Check if we're ready for the next step
       checkReadyForNextStep();
     },
-    [form, presets]
+    [form, presets, checkReadyForNextStep]
   );
 
   const handleTrimChange = useCallback(
@@ -129,17 +140,6 @@ export default function UploadStep({ setLoading, next }: StepComponentProps) {
   const handleSetLoading = useCallback((loading: boolean) => {
     setIsComponentLoading(loading);
   }, []);
-
-  // Check if all required fields are filled
-  const checkReadyForNextStep = useCallback(() => {
-    const url = form.getValues('url');
-    const file = form.getValues('file');
-    const preset = form.getValues('selectedPresetId');
-
-    // Check if we have either a URL or a file, and a preset is selected
-    const isReady = Boolean((url || file) && preset);
-    setIsReadyForNextStep(isReady);
-  }, [form]);
 
   // Check ready state when component mounts and when selectedPresetId changes
   useEffect(() => {
@@ -161,23 +161,8 @@ export default function UploadStep({ setLoading, next }: StepComponentProps) {
         isLoading={isComponentLoading}
         setIsLoading={handleSetLoading}
         initialUrl={initialUrl}
-        availableCredits={100} // Replace with actual credits from your application
-        presets={presets} // Replace with actual presets from your application
+        presets={presets}
       />
-
-      {/* Next button - only shown when ready */}
-      {hasVideo && isReadyForNextStep && (
-        <div className="mt-8 flex justify-end">
-          <Button
-            onClick={handleNextClick}
-            className="bg-storyhero-accent-indigo hover:bg-storyhero-accent-indigoHover text-storyhero-text-primary flex items-center gap-2"
-            disabled={isComponentLoading}
-          >
-            Next
-            <ArrowRightIcon className="h-4 w-4" />
-          </Button>
-        </div>
-      )}
 
       {/* Guidance message when not ready */}
       {hasVideo && !isReadyForNextStep && (

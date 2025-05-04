@@ -15,6 +15,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 
 interface VideoConfigurerProps {
@@ -24,7 +25,6 @@ interface VideoConfigurerProps {
   isLoading?: boolean;
   setIsLoading?: (loading: boolean) => void;
   initialUrl?: string;
-  availableCredits?: number;
   presets?: any[];
 }
 
@@ -35,10 +35,9 @@ export default function VideoConfigurer({
   isLoading = false,
   setIsLoading,
   initialUrl = '',
-  availableCredits = 0,
   presets = [],
 }: VideoConfigurerProps) {
-  const [placeholder, setPlaceholder] = useState('Enter a YouTube URL link');
+  const [placeholder, setPlaceholder] = useState('Paste a YouTube link here');
   const [fileInput, setFileInput] = useState<HTMLInputElement | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
@@ -46,7 +45,9 @@ export default function VideoConfigurer({
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoUrl, setVideoUrl] = useState(initialUrl || '');
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [selectedPreset, setSelectedPreset] = useState<string>('');
+  const [selectedPreset, setSelectedPreset] = useState<string>(
+    presets.length > 0 ? presets[0].id : ''
+  );
   const [trimStartTime, setTrimStartTime] = useState(0);
   const [trimEndTime, setTrimEndTime] = useState(0);
   const debouncedUrl = useDebounce(videoUrl, 1000);
@@ -65,9 +66,9 @@ export default function VideoConfigurer({
 
   useEffect(() => {
     const placeholders = [
-      'Enter a YouTube URL link',
+      'Paste a YouTube link here',
+      'Paste a Twitch link here',
       'Or upload your own video',
-      'Paste video link here',
     ] as const;
     let index = 0;
 
@@ -270,8 +271,37 @@ export default function VideoConfigurer({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  // Add this function to handle slider changes
+  const handleSliderChange = (values: number[]) => {
+    if (values.length === 2) {
+      const [start, end] = values;
+      // Convert percentage values to seconds
+      const startSeconds = Math.floor((start / 100) * videoDuration);
+      const endSeconds = Math.floor((end / 100) * videoDuration);
+
+      setTrimStartTime(startSeconds);
+      setTrimEndTime(endSeconds);
+      onTrimChange(startSeconds, endSeconds);
+    }
+  };
+
+  // Calculate slider values (as percentages of total duration)
+  const sliderValues = videoDuration
+    ? [
+        (trimStartTime / videoDuration) * 100,
+        (trimEndTime / videoDuration) * 100,
+      ]
+    : [0, 100];
+
+  // When component mounts, notify parent about initial preset selection
+  useEffect(() => {
+    if (presets.length > 0 && selectedPreset === presets[0].id) {
+      onPresetChange(presets[0].id);
+    }
+  }, [presets, selectedPreset, onPresetChange]);
+
   return (
-    <div className="space-y-8">
+    <div className="bg-background mx-auto max-w-3xl space-y-8">
       {/* Video Source Box */}
       <div className="relative">
         {/* Animated border when processing */}
@@ -339,84 +369,105 @@ export default function VideoConfigurer({
             </div>
           </div>
 
-          {/* Video Preview Section */}
+          {/* Video Preview Section - MODIFIED LAYOUT */}
           {thumbnail && (
             <div className="border-storyhero-bg-elevated border-t pt-4">
-              <div className="flex flex-col gap-6 md:flex-row">
-                <div className="w-full md:w-1/2">
-                  <div className="relative overflow-hidden rounded-lg shadow-md">
-                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/30 to-transparent"></div>
+              <div className="flex flex-col gap-4">
+                {/* Center the thumbnail */}
+                <div className="flex justify-center">
+                  <div className="w-full max-w-xs">
+                    {' '}
+                    {/* Control thumbnail width */}
+                    <div className="relative overflow-hidden rounded-lg shadow-md">
+                      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/30 to-transparent"></div>
 
-                    <AspectRatio
-                      className="border-storyhero-bg-elevated overflow-hidden rounded-lg border"
-                      ratio={16 / 9}
-                    >
-                      <img
-                        src={thumbnail}
-                        alt={videoTitle || 'Video thumbnail'}
-                        className="h-full w-full object-cover"
-                      />
-                    </AspectRatio>
+                      <AspectRatio
+                        className="border-storyhero-bg-elevated overflow-hidden rounded-lg border"
+                        ratio={16 / 9}
+                      >
+                        <img
+                          src={thumbnail}
+                          alt={videoTitle || 'Video thumbnail'}
+                          className="h-full w-full object-cover"
+                        />
+                      </AspectRatio>
 
-                    {/* Duration indicator */}
-                    {videoDuration > 0 && (
-                      <div className="absolute right-2 bottom-2 z-20 rounded bg-black/70 px-2 py-1 text-xs font-medium text-white">
-                        {Math.floor(videoDuration / 60)}:
-                        {(videoDuration % 60).toString().padStart(2, '0')}
-                      </div>
-                    )}
+                      {/* Duration indicator */}
+                      {videoDuration > 0 && (
+                        <div className="absolute right-2 bottom-2 z-20 rounded bg-black/70 px-2 py-1 text-xs font-medium text-white">
+                          {Math.floor(videoDuration / 60)}:
+                          {(videoDuration % 60).toString().padStart(2, '0')}
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="text-storyhero-text-primary mt-2 truncate text-center text-sm font-medium">
+                      {videoTitle}
+                    </h3>
                   </div>
-                  <h3 className="text-storyhero-text-primary mt-2 truncate text-sm font-medium">
-                    {videoTitle}
-                  </h3>
                 </div>
 
-                {/* Trim controls inline */}
-                <div className="flex w-full flex-col justify-center space-y-4 md:w-1/2">
-                  <div className="flex items-center gap-2">
-                    <ScissorsIcon className="text-storyhero-text-muted h-4 w-4" />
-                    <span className="text-storyhero-text-primary text-sm font-medium">
-                      Trim video
-                    </span>
+                {/* Trim controls below thumbnail */}
+                <div className="mt-2 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <ScissorsIcon className="text-storyhero-text-muted h-4 w-4" />
+                      <span className="text-storyhero-text-primary text-sm font-medium">
+                        Trim video
+                      </span>
+                    </div>
+                    <div className="bg-storyhero-bg-higher text-storyhero-accent-indigo rounded px-2 py-1 text-xs font-medium">
+                      {Math.floor((trimEndTime - trimStartTime) / 60)}m{' '}
+                      {(trimEndTime - trimStartTime) % 60}s selected
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                  <div className="text-storyhero-text-secondary text-xs italic">
+                    <span className="text-storyhero-accent-indigo font-medium">
+                      Tip:
+                    </span>{' '}
+                    Processing only the relevant part of the video can save
+                    credits!
+                  </div>
+
+                  <div className="py-2">
+                    <Slider
+                      defaultValue={[0, 100]}
+                      value={sliderValues}
+                      onValueChange={handleSliderChange}
+                      min={0}
+                      max={100}
+                      step={1}
+                      className="py-4"
+                    />
+                  </div>
+
+                  <div className="flex justify-between">
+                    <div className="space-y-1">
                       <label className="text-storyhero-text-secondary text-xs">
-                        Start time (MM:SS)
+                        Start time
                       </label>
                       <Input
                         type="text"
                         value={formatTime(trimStartTime)}
                         onChange={handleStartTimeChange}
-                        className="bg-storyhero-bg-higher focus:ring-storyhero-accent-indigo border-none text-center font-mono focus:ring-1"
+                        className="bg-storyhero-bg-higher focus:ring-storyhero-accent-indigo w-24 border-none text-center font-mono focus:ring-1"
                         pattern="[0-9]+:[0-5][0-9]"
                         placeholder="0:00"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       <label className="text-storyhero-text-secondary text-xs">
-                        End time (MM:SS)
+                        End time
                       </label>
                       <Input
                         type="text"
                         value={formatTime(trimEndTime)}
                         onChange={handleEndTimeChange}
-                        className="bg-storyhero-bg-higher focus:ring-storyhero-accent-indigo border-none text-center font-mono focus:ring-1"
+                        className="bg-storyhero-bg-higher focus:ring-storyhero-accent-indigo w-24 border-none text-center font-mono focus:ring-1"
                         pattern="[0-9]+:[0-5][0-9]"
                         placeholder="0:00"
                       />
                     </div>
-                  </div>
-
-                  <div className="bg-storyhero-bg-higher flex items-center justify-between rounded p-2 text-xs">
-                    <span className="text-storyhero-text-secondary">
-                      Selected duration:
-                    </span>
-                    <span className="text-storyhero-accent-indigo font-medium">
-                      {Math.floor((trimEndTime - trimStartTime) / 60)}m{' '}
-                      {(trimEndTime - trimStartTime) % 60}s
-                    </span>
                   </div>
                 </div>
               </div>
@@ -428,22 +479,22 @@ export default function VideoConfigurer({
             <div className="flex items-center gap-2">
               <ClockIcon className="text-storyhero-text-muted h-4 w-4" />
               <span className="text-storyhero-text-secondary text-sm">
-                Available credits:
+                Credits Cost:
               </span>
             </div>
             <div className="text-storyhero-accent-indigo text-sm font-semibold">
-              {availableCredits}
+              100
             </div>
           </div>
 
           <p className="text-storyhero-text-secondary text-center text-xs">
-            Using video you don't own may violate copyright laws. By continuing,
-            you confirm this is your own original content.
+            Using a video you don&apos;t own may violate copyright laws. By
+            continuing, you confirm you are transforming the video for fair use.
           </p>
         </div>
       </div>
 
-      {/* Preset Selection Section - Only show after video is loaded */}
+      {/* Preset Selection Section - Now including Custom option */}
       {thumbnail && (
         <div className="bg-storyhero-bg-base border-storyhero-bg-elevated rounded-lg border-2 p-6">
           <div className="mb-4 flex items-center gap-2">
@@ -453,12 +504,53 @@ export default function VideoConfigurer({
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {/* Custom Preset Option */}
+            <Card
+              key="custom-preset"
+              className={cn(
+                'cursor-pointer overflow-hidden border-dashed py-0 transition-all',
+                selectedPreset === 'custom-preset'
+                  ? 'ring-storyhero-accent-indigo ring-2'
+                  : 'border-storyhero-bg-elevated hover:shadow-md'
+              )}
+              onClick={() => handlePresetChange('custom-preset')}
+            >
+              <div className="bg-storyhero-bg-higher relative aspect-[9/16] overflow-hidden">
+                <div className="flex h-full items-center justify-center">
+                  <div className="text-storyhero-text-muted flex flex-col items-center">
+                    <div className="border-storyhero-bg-elevated mb-2 flex h-8 w-8 items-center justify-center rounded-full border-2 border-dashed">
+                      <span className="text-xl font-medium">+</span>
+                    </div>
+                    <span className="text-sm font-medium">Create your own</span>
+                    <span className="mt-1 text-xs">Customize all settings</span>
+                  </div>
+                </div>
+
+                {/* Show selected indicator */}
+                {selectedPreset === 'custom-preset' && (
+                  <div className="bg-storyhero-accent-indigo absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full text-white">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {/* Existing Presets */}
             {presets.map((preset) => (
               <Card
                 key={preset.id}
                 className={cn(
-                  'cursor-pointer overflow-hidden transition-all',
+                  'cursor-pointer overflow-hidden py-0 transition-all',
                   selectedPreset === preset.id
                     ? 'ring-storyhero-accent-indigo ring-2'
                     : 'hover:shadow-md'

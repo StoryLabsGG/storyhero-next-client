@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import ProjectCard from '@/components/dashboard/ProjectCard';
+import ProjectCardSkeleton from '@/components/dashboard/ProjectCardSkeleton';
 import VideoUploader, { VideoData } from '@/components/dashboard/VideoUploader';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -26,7 +28,6 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
   const [videoUrl, setVideoUrl] = useState('');
-  const [placeholder, setPlaceholder] = useState('Enter a YouTube URL link');
   const [fileInput, setFileInput] = useState<HTMLInputElement | null>(null);
 
   const debouncedUrl = useDebounce(videoUrl, 1000);
@@ -56,23 +57,6 @@ export default function DashboardPage() {
       // with some identifier for the uploaded file
     }
   };
-
-  // Set up dynamic placeholder text
-  useEffect(() => {
-    const placeholders = [
-      'Enter a YouTube URL link',
-      'Or upload your own video',
-      'Paste video link here',
-    ] as const;
-    let index = 0;
-
-    const interval = setInterval(() => {
-      index = (index + 1) % placeholders.length;
-      setPlaceholder(placeholders[index] as string);
-    }, 1500);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Set up file input for upload
   useEffect(() => {
@@ -126,24 +110,6 @@ export default function DashboardPage() {
     }
   }, [session]);
 
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
-  // Extract domain from URL for display
-  const getSourceName = (url: string) => {
-    try {
-      const domain = new URL(url).hostname.replace('www.', '');
-      return domain.charAt(0).toUpperCase() + domain.slice(1);
-    } catch (e) {
-      return 'Unknown Source';
-    }
-  };
-
   const handleGenerateClips = () => {
     // Logic to handle generating clips
     window.location.href = '/generate-shorts';
@@ -163,8 +129,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Projects section - Lighter gray and more transparent background */}
-        <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm dark:border-gray-700/15 dark:bg-gray-800/10">
+        {/* Projects section - Increased max width and adjusted for larger screens */}
+        <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm xl:max-w-7xl 2xl:max-w-[90rem] dark:border-gray-700/15 dark:bg-gray-800/10">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex space-x-2">
               <Button
@@ -213,62 +179,30 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Projects grid */}
+          {/* Projects grid - Adjusted for wider cards */}
           {isLoading && jobs.length === 0 ? (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-6 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
               {[1, 2, 3, 4].map((i) => (
-                <Card
-                  key={i}
-                  className="bg-storyhero-bg-elevated animate-pulse overflow-hidden border-0"
-                >
-                  <div className="bg-storyhero-bg-higher h-32 rounded-t-lg"></div>
-                  <div className="p-3">
-                    <div className="bg-storyhero-bg-highest mb-2 h-4 w-3/4 rounded"></div>
-                    <div className="bg-storyhero-bg-highest h-3 w-1/2 rounded"></div>
-                  </div>
-                </Card>
+                <ProjectCardSkeleton key={i} />
               ))}
             </div>
           ) : jobs.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4 py-6 md:grid-cols-3 lg:grid-cols-4">
-              {jobs.map((job) => (
-                <Link href={`/shorts/${job.id}`} key={job.id} className="group">
-                  <Card className="bg-storyhero-bg-elevated hover:border-storyhero-accent-indigo/50 cursor-pointer overflow-hidden border-0 transition-all group-hover:-translate-y-1 group-hover:shadow-md hover:border">
-                    <div className="from-storyhero-bg-higher to-storyhero-bg-base relative h-32 overflow-hidden bg-gradient-to-br">
-                      {job.sourceUrl ? (
-                        <div className="relative h-full w-full">
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                            <VideoIcon className="text-storyhero-text-primary/60 h-10 w-10" />
-                          </div>
-                          <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/90 to-transparent p-2">
-                            <p className="text-storyhero-text-primary truncate text-xs font-medium">
-                              {getSourceName(job.sourceUrl)}
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex h-full items-center justify-center">
-                          <VideoIcon className="text-storyhero-text-muted h-10 w-10" />
-                        </div>
-                      )}
-                      <div className="text-storyhero-text-secondary absolute top-2 right-2 rounded bg-black/40 px-1.5 py-0.5 text-xs">
-                        18 days left
-                      </div>
-                    </div>
-                    <div className="p-3">
-                      <h3 className="text-storyhero-text-primary mb-1 truncate text-sm font-medium">
-                        Project {job.id.substring(0, 8)}
-                      </h3>
-                      <p className="text-storyhero-text-secondary text-xs">
-                        Created {formatDate(job.createdAt)}
-                      </p>
-                    </div>
-                  </Card>
-                </Link>
+            <div className="grid grid-cols-1 gap-6 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+              {jobs.map((job, index) => (
+                <ProjectCard
+                  key={job.id}
+                  id={job.id}
+                  sourceUrl={job.sourceUrl}
+                  createdAt={job.createdAt}
+                  daysLeft={18}
+                />
               ))}
             </div>
           ) : (
-            <div className="bg-storyhero-bg-elevated rounded-lg py-12 text-center">
+            <div
+              className="bg-storyhero-bg-elevated rounded-lg py-12 text-center"
+              key={0}
+            >
               <div className="bg-storyhero-bg-highest mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
                 <VideoIcon className="text-storyhero-text-muted h-8 w-8" />
               </div>

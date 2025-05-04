@@ -107,9 +107,9 @@ export default function VideoUploader({
 
   useEffect(() => {
     const placeholders = [
-      'Enter a YouTube URL link',
+      'Paste a YouTube link here',
+      'Paste a Twitch link here',
       'Or upload your own video',
-      'Paste video link here',
     ] as const;
     let index = 0;
 
@@ -269,7 +269,7 @@ export default function VideoUploader({
               )}
             </div>
             <span className="text-storyhero-text-primary">
-              YouTube Video Link
+              Enter a Video Link
             </span>
           </div>
 
@@ -291,17 +291,13 @@ export default function VideoUploader({
           </div>
 
           <Button
+            variant="storyhero"
             disabled={isProcessing || (!thumbnail && !videoFile && !videoUrl)}
             onClick={handleSubmit}
-            className="bg-storyhero-accent-indigo hover:bg-storyhero-accent-indigoHover text-storyhero-text-primary w-full"
+            className="w-full"
           >
-            {isProcessing ? 'Processing...' : 'Generate Clips'}
+            {isProcessing ? 'Processing...' : 'Get Viral Shorts'}
           </Button>
-
-          <p className="text-storyhero-text-secondary mt-4 text-center text-sm">
-            Using video you don't own may violate copyright laws. By continuing,
-            you confirm this is your own original content.
-          </p>
         </div>
       </div>
 

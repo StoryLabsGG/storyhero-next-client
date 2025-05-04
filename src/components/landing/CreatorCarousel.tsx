@@ -50,8 +50,8 @@ export default function CreatorSection() {
         </h2>
 
         <InfiniteSlider
-          duration={180}
-          durationOnHover={180}
+          duration={120}
+          durationOnHover={120}
           gap={32}
           className="mb-8"
           reverse={false}

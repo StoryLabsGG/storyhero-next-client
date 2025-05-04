@@ -38,6 +38,7 @@ interface ShortsJob {
   userId: string;
   status: string;
   sourceUrl: string;
+  videoTitle?: string;
   createdAt: number;
   updatedAt?: number;
   settings: {
@@ -150,12 +151,6 @@ export default function ShortsDetailPage({ shortsJob }: ShortsDetailPageProps) {
           <p className="text-storyhero-text-secondary mb-6">
             You don't have permission to view this short.
           </p>
-          <Link href="/dashboard">
-            <Button className="bg-storyhero-accent-indigo hover:bg-storyhero-accent-indigoHover text-storyhero-text-primary">
-              <ArrowLeftIcon className="mr-2 h-4 w-4" />
-              Back to Dashboard
-            </Button>
-          </Link>
         </Card>
       </div>
     );
@@ -165,26 +160,20 @@ export default function ShortsDetailPage({ shortsJob }: ShortsDetailPageProps) {
     <div className="min-h-screen py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
-          <Link href="/dashboard">
-            <Button className="bg-storyhero-accent-indigo hover:bg-storyhero-accent-indigoHover text-storyhero-text-primary mb-4">
-              <ArrowLeftIcon className="mr-2 h-4 w-4" />
-              Back to Dashboard
-            </Button>
-          </Link>
           <div className="flex items-center justify-between">
             <h1 className="text-storyhero-text-primary text-2xl font-bold">
-              Short Video Job Details
+              {shortsJob.videoTitle || 'Untitled Video'}
             </h1>
           </div>
           <div className="mt-2 flex items-center">
-            <span className="text-storyhero-text-secondary ml-2">
+            <span className="text-storyhero-text-secondary">
               Created on {formatDate(shortsJob.createdAt)}
             </span>
           </div>
         </div>
 
         {/* Job Information Card */}
-        <Card className="bg-storyhero-bg-elevated mb-6 border-0">
+        {/* <Card className="bg-storyhero-bg-elevated mb-6 border-0">
           <CardContent className="p-6">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-storyhero-text-primary text-lg font-semibold">
@@ -232,7 +221,7 @@ export default function ShortsDetailPage({ shortsJob }: ShortsDetailPageProps) {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Shorts Grid */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

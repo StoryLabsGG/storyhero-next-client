@@ -120,7 +120,7 @@ export default function CustomizationStep({
     <div className="space-y-8">
       <div className="bg-storyhero-bg-elevated rounded-lg p-6">
         <h3 className="text-storyhero-text-primary mb-4 text-lg font-medium">
-          Choose your content style
+          Choose your content format
         </h3>
 
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -173,12 +173,12 @@ export default function CustomizationStep({
         {selectedFlow && (
           <div className="mt-6 mb-4">
             <h4 className="text-storyhero-text-primary mb-3 text-sm font-medium">
-              Preview
+              How it works
             </h4>
             <div className="flex justify-center">
               <div
                 className={cn(
-                  'max-w-[450px] overflow-hidden rounded-lg bg-black',
+                  'mt-10 w-[90%] overflow-hidden rounded-lg bg-black',
                   !isVideoReady && 'hidden'
                 )}
               >

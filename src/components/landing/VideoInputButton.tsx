@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 
 export default function VideoInputButton() {
   const [link, setLink] = useState('');
-  const [placeholder, setPlaceholder] = useState('Enter a YouTube video link');
+  const [placeholder, setPlaceholder] = useState('Paste a YouTube link here');
 
   return (
     <div className="flex w-full flex-col justify-center gap-4 px-4 md:w-fit md:flex-row md:items-center md:px-0">

@@ -21,6 +21,7 @@ export default function SettingsStep({
   prev,
 }: StepComponentProps) {
   const form = useFormContext();
+  const formData = form.getValues();
 
   return (
     <div className="space-y-8">
@@ -42,44 +43,28 @@ export default function SettingsStep({
             <div className="space-y-5">
               <div>
                 <label className="text-storyhero-text-primary mb-2 block text-sm font-medium">
-                  Aspect ratio
+                  Zoom level
                 </label>
                 <select
                   className="bg-storyhero-bg-base text-storyhero-text-primary border-storyhero-bg-highest focus:ring-storyhero-accent-indigo h-10 w-full rounded-md border px-3 py-2 focus:ring-1 focus:outline-none"
-                  value={form.watch('aspectRatio') || '9:16'}
-                  onChange={(e) => form.setValue('aspectRatio', e.target.value)}
+                  value={form.watch('zoomLevel') || 'noZoom'}
+                  onChange={(e) => form.setValue('zoomLevel', e.target.value)}
                 >
-                  <option value="9:16">9:16 (Vertical)</option>
-                  <option value="16:9">16:9 (Horizontal)</option>
-                  <option value="1:1">1:1 (Square)</option>
+                  <option value="noZoom">No Zoom</option>
+                  <option value="25">25% Zoom</option>
+                  <option value="50">50% Zoom</option>
+                  <option value="75">75% Zoom</option>
+                  <option value="100">100% Zoom</option>
                 </select>
                 <p className="text-storyhero-text-secondary mt-1 text-xs">
-                  Choose the aspect ratio for your video
-                </p>
-              </div>
-
-              <div>
-                <label className="text-storyhero-text-primary mb-2 block text-sm font-medium">
-                  Visual style
-                </label>
-                <select
-                  className="bg-storyhero-bg-base text-storyhero-text-primary border-storyhero-bg-highest focus:ring-storyhero-accent-indigo h-10 w-full rounded-md border px-3 py-2 focus:ring-1 focus:outline-none"
-                  value={form.watch('style') || 'classic'}
-                  onChange={(e) => form.setValue('style', e.target.value)}
-                >
-                  <option value="classic">Classic</option>
-                  <option value="modern">Modern</option>
-                  <option value="vibrant">Vibrant</option>
-                </select>
-                <p className="text-storyhero-text-secondary mt-1 text-xs">
-                  Select the visual style for your content
+                  Choose how much to zoom in on your video
                 </p>
               </div>
             </div>
           </div>
 
           {/* Audio settings section */}
-          <div className="bg-storyhero-bg-higher rounded-lg p-5">
+          {/* <div className="bg-storyhero-bg-higher rounded-lg p-5">
             <div className="mb-4 flex items-center gap-2">
               <Volume2Icon className="text-storyhero-accent-indigo h-5 w-5" />
               <h3 className="text-storyhero-text-primary text-base font-medium">
@@ -134,7 +119,7 @@ export default function SettingsStep({
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Additional options section */}
@@ -146,46 +131,11 @@ export default function SettingsStep({
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div>
-              <label className="text-storyhero-text-primary mb-2 block text-sm font-medium">
-                Captions
-              </label>
-              <select
-                className="bg-storyhero-bg-base text-storyhero-text-primary border-storyhero-bg-highest focus:ring-storyhero-accent-indigo h-10 w-full rounded-md border px-3 py-2 focus:ring-1 focus:outline-none"
-                value={form.watch('captions') || 'auto'}
-                onChange={(e) => form.setValue('captions', e.target.value)}
-              >
-                <option value="auto">Auto-generate</option>
-                <option value="none">None</option>
-                <option value="custom">Custom</option>
-              </select>
-              <p className="text-storyhero-text-secondary mt-1 text-xs">
-                How to handle video captions
-              </p>
-            </div>
-
-            <div>
-              <label className="text-storyhero-text-primary mb-2 block text-sm font-medium">
-                Generate description
-              </label>
-              <div className="mt-1.5 flex items-center">
-                <input
-                  type="checkbox"
-                  className="border-storyhero-bg-highest mr-2 h-4 w-4 rounded"
-                  checked={form.watch('generateDescription') || false}
-                  onChange={(e) =>
-                    form.setValue('generateDescription', e.target.checked)
-                  }
-                />
-                <span className="text-storyhero-text-primary text-sm">
-                  Auto-generate video description
-                </span>
-              </div>
-              <p className="text-storyhero-text-secondary mt-1 text-xs">
-                AI will create a description based on content
-              </p>
-            </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-1">
+            {/* Intentionally left empty as all options were removed */}
+            <p className="text-storyhero-text-secondary text-sm">
+              No additional options available
+            </p>
           </div>
         </div>
       </div>

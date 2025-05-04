@@ -17,11 +17,11 @@ export default function DashboardLayout({
         ease={20}
         color="#EA580C"
       />
-      <div className="flex h-screen w-full">
+      <div className="flex min-h-screen w-full">
         <AppSidebar />
         <div className="flex flex-1 flex-col">
           <Topbar />
-          <div className="flex-1 overflow-auto">{children}</div>
+          <div className="flex-1">{children}</div>
         </div>
       </div>
     </SidebarProvider>
