@@ -122,7 +122,7 @@ export default function GenerateShortsFlow({
           settings: {},
           compositionId: 'DefaultShort',
           cookiesKey: '',
-          maxShorts: 3,
+          maxShorts: 6,
         }),
       });
 
