@@ -10,7 +10,7 @@ export default function FeatureCard({
   iconName,
 }: FeatureCardProps) {
   return (
-    <div className="bg-card flex flex-col items-center rounded-lg p-6 shadow-lg">
+    <div className="bg-card flex flex-col items-center rounded-lg p-6 text-center shadow-lg">
       <div className="mb-4 h-16 w-16">
         <img
           src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/public-assets/${iconName}.svg`}

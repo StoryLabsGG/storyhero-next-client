@@ -25,7 +25,7 @@ export default function NavButtons() {
           variant="secondary"
           className="hover:bg-storyhero group transition-all duration-200 hover:text-white"
         >
-          <span className="group-hover:hidden">Sign In</span>
+          <span className="group-hover:hidden">Sign In - It&apos;s Free</span>
           <span className="hidden group-hover:inline">
             Sign In - It&apos;s Free
           </span>

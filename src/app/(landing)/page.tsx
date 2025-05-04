@@ -40,22 +40,21 @@ export default function LandingPage() {
         <CreatorSection />
       </div>
 
-      <div className="py-12 md:py-24">
-        <FeaturesSection />
-      </div>
-
       <div className="relative py-12 md:py-24">
         <div className="flex flex-col items-center justify-center space-y-4 pb-12 text-center">
           <h1 className="text-4xl font-bold md:text-5xl">
-            From long-form to viral clips in four easy steps
+            Let AI automate your shorts workflow
           </h1>
           <p className="text-muted-foreground w-[75%] text-sm md:w-full md:text-xl">
-            Our streamlined process makes it simple to transform your content
-            and share it across platforms.
+            So you can focus on what matters most.
           </p>
         </div>
 
         <HowItWorksSection />
+      </div>
+
+      <div className="py-12 md:py-24">
+        <FeaturesSection />
       </div>
 
       <div className="relative px-2 py-12 md:py-24">
@@ -90,7 +89,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div className="px-2 py-12 md:py-24">
+      {/* <div className="px-2 py-12 md:py-24">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <h1 className="text-5xl font-bold md:text-6xl">
             It&apos;s never been easier to become a creator.
@@ -99,7 +98,7 @@ export default function LandingPage() {
             Use StoryHero to become a content machine.
           </p>
         </div>
-      </div>
+      </div> */}
 
       <div className="px-5 py-12 md:py-24">
         <FAQSection />

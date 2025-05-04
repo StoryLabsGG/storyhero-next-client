@@ -12,15 +12,13 @@ const features = [
     iconName: 'storyline-icon',
   },
   {
-    title: 'Integrated with shorts platforms',
-    description:
-      'Seamlessly publish to YouTube Shorts, TikTok, and Instagram Reels from one place.',
+    title: 'Custom Presets',
+    description: 'Choose your background, captions, and formatting.',
     iconName: 'platform-icon',
   },
   {
     title: 'Captions and video editing',
-    description:
-      'Auto-generate captions and edit your videos with AI-powered tools.',
+    description: 'Weaving it all together for you.',
     iconName: 'editing-icon',
   },
 ];
@@ -33,7 +31,7 @@ export default function FeaturesSection() {
           Everything you need to make high-quality shorts
         </h1>
         <p className="text-muted-foreground w-[75%] text-sm md:w-full md:text-xl">
-          So you can focus on what matters most.
+          Built for creators, by creators.
         </p>
       </div>
 

@@ -37,7 +37,7 @@ const questions: FAQProps[] = [
   {
     question: 'Will this decrease views on my long-form video?',
     answer:
-      'While there are some users who consume content on multiple platforms, each social media platform tends to have completely different audiences and algorithms. For example, TikTok tends to skew way younger than YouTube. With the power of short-form content, you&apos;ll likely attract a completely new set of viewers!',
+      "While there are some users who consume content on multiple platforms, each social media platform tends to have completely different audiences and algorithms. For example, TikTok tends to skew way younger than YouTube. With the power of short-form content, you'll likely attract a completely new set of viewers!",
   },
   {
     question: 'Will short-form content dilute my brand?',
@@ -47,7 +47,7 @@ const questions: FAQProps[] = [
   {
     question: 'What is the refund policy?',
     answer:
-      'We offer a free trial with 20 free credits! However, processing videos has a high cost so we can&apos;t offer refunds. You can cancel your plan at any time have your plan remain active until the end of the billing cycle.',
+      "We offer a free trial with 20 free credits! However, processing videos has a high cost so we can't offer refunds. You can cancel your plan at any time have your plan remain active until the end of the billing cycle.",
   },
   {
     question: 'Still have questions?',

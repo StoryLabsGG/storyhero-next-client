@@ -5,7 +5,7 @@ export default function HeroSection() {
   return (
     <section className="relative mt-8 flex w-full flex-col items-center justify-center gap-8 text-center">
       <div className="relative flex flex-col items-center space-y-8">
-        <h1 className="flex flex-col items-center space-y-4 text-4xl leading-tight font-extrabold md:gap-5 md:text-7xl">
+        <h1 className="flex flex-col items-center space-y-4 text-4xl leading-tight font-extrabold md:gap-5 md:text-6xl lg:text-7xl">
           <div className="flex items-center space-x-4">
             <span>Create viral shorts from</span>
           </div>
