@@ -120,7 +120,7 @@ export default function DashboardPage() {
       {/* Main content - adjusted padding */}
       <main className="w-full px-4 py-6">
         <div className="mx-auto mt-12 mb-16 flex max-w-6xl justify-center">
-          <div className="bg-background relative w-full space-y-8 lg:w-[70%]">
+          <div className="bg-background relative w-full space-y-8 lg:w-[50%]">
             <VideoUploader
               isLoading={isLoading}
               setIsLoading={setIsLoading}
@@ -129,7 +129,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Projects section - Increased max width and adjusted for larger screens */}
+        {/* Projects section - Added min-width */}
         <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm xl:max-w-7xl 2xl:max-w-[90rem] dark:border-gray-700/15 dark:bg-gray-800/10">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex space-x-2">

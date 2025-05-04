@@ -113,18 +113,22 @@ export function AppSidebar() {
     name: string | null | undefined,
     email: string | null | undefined
   ) => {
-    if (name) {
-      return name.length > 15 ? `${name.substring(0, 12)}...` : name;
-    }
-
     if (!email) return 'User';
 
-    if (email.length > 12) {
+    if (email.length > 15) {
       const atIndex = email.indexOf('@');
       if (atIndex > 0) {
-        return `${email.substring(0, Math.min(8, atIndex))}@${email.substring(atIndex + 1, atIndex + 4)}...`;
+        const username = email.substring(0, atIndex);
+        const domain = email.substring(atIndex + 1);
+
+        if (username.length > 8) {
+          return `${username.substring(0, 6)}...@${domain}`;
+        } else {
+          // If username is short, we can truncate the domain instead
+          return `${username}@${domain.substring(0, 5)}...`;
+        }
       }
-      return `${email.substring(0, 8)}...`;
+      return `${email.substring(0, 12)}...`;
     }
 
     return email;
@@ -197,13 +201,6 @@ export function AppSidebar() {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <span className="text-foreground/80 flex items-center rounded-full bg-neutral-700/20 px-2 py-0.5 text-xs">
-                    <span className="relative mr-1.5 flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                    </span>
-                    {isPaid ? 'Pro' : 'Free'}
-                  </span>
                 </div>
               </div>
             </div>
