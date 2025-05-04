@@ -206,7 +206,7 @@ export function AppSidebar() {
             </div>
             <div className="border-t border-neutral-600/15 bg-neutral-800/5 px-3 py-2.5">
               {!isPaid && (
-                <div className="mb-4">
+                <div className="mb-0">
                   <Button
                     variant="outline"
                     size="sm"
@@ -217,7 +217,7 @@ export function AppSidebar() {
                   </Button>
                 </div>
               )}
-              <div className="mb-1.5 flex items-center justify-between text-xs font-medium">
+              {/* <div className="mb-1.5 flex items-center justify-between text-xs font-medium">
                 <span className="text-foreground/70">Storage</span>
                 <span className="text-foreground/80">
                   0 / {isPaid ? '50' : '5'} GB
@@ -225,7 +225,7 @@ export function AppSidebar() {
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-neutral-700/20">
                 <div className="h-full w-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500"></div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

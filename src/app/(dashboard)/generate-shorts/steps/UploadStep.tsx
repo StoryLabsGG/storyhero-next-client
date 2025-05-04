@@ -75,9 +75,12 @@ export default function UploadStep({ setLoading, next }: StepComponentProps) {
         setHasVideo(true);
       }
 
+      console.log('Video Data:', videoData);
+
       // Store other metadata in the form
       form.setValue('thumbnail', videoData.thumbnail);
-      form.setValue('videoTitle', videoData.title);
+      form.setValue('videoTitle', videoData.title || 'Untitled Video');
+      console.log('Setting video title to:', videoData.title);
       form.setValue('videoDuration', videoData.duration);
 
       // Check if we're ready for the next step

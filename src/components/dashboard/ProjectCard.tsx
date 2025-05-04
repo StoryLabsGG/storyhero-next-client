@@ -118,7 +118,7 @@ export default function ProjectCard({
         </div>
         <div className="flex-grow p-2">
           <h3 className="text-storyhero-text-primary mb-1 overflow-hidden text-base font-medium text-ellipsis whitespace-nowrap">
-            {videoTitle || 'Unknown Title'}
+            {videoTitle || 'Untitled Video'}
           </h3>
           <p className="text-storyhero-text-secondary overflow-hidden text-xs text-ellipsis whitespace-nowrap">
             Created {formatDate(createdAt)}

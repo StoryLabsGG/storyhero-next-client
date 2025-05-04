@@ -18,6 +18,7 @@ interface GenerateShortsJob {
   id: string;
   userId: string;
   sourceUrl: string;
+  videoTitle: string;
   createdAt: number;
 }
 
@@ -130,7 +131,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Projects section - Added min-width */}
-        <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm xl:max-w-7xl 2xl:max-w-[90rem] dark:border-gray-700/15 dark:bg-gray-800/10">
+        <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm xl:max-w-xl 2xl:max-w-[90rem] dark:border-gray-700/15 dark:bg-gray-800/10">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex space-x-2">
               <Button
@@ -192,6 +193,7 @@ export default function DashboardPage() {
                 <ProjectCard
                   key={job.id}
                   id={job.id}
+                  videoTitle={job.videoTitle}
                   sourceUrl={job.sourceUrl}
                   createdAt={job.createdAt}
                   daysLeft={18}

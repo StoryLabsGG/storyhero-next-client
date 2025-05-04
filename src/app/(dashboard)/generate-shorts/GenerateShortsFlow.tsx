@@ -69,7 +69,7 @@ export default function GenerateShortsFlow({
     defaultValues: {
       url: initialUrl,
       file: null,
-      title: '',
+      videoTitle: 'Untitled Video',
       style: 'classic',
       flow: 'clips',
       aspectRatio: '9:16',
@@ -95,6 +95,7 @@ export default function GenerateShortsFlow({
 
   const handleGenerate = async () => {
     const formData = form.getValues();
+    console.log('Form data before submission:', formData);
     setIsGenerating(true);
     setIsLoading(true);
     setError(null);
@@ -117,6 +118,7 @@ export default function GenerateShortsFlow({
         },
         body: JSON.stringify({
           url: formData.url,
+          videoTitle: formData.videoTitle || 'Untitled Video',
           settings: {},
           compositionId: 'DefaultShort',
           cookiesKey: '',

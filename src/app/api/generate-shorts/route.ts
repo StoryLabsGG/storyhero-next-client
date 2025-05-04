@@ -9,8 +9,15 @@ import { publishEvent } from '@/lib/clients/eventbridge';
 
 export async function POST(request: Request) {
   try {
-    const { url, settings, compositionId, cookiesKey, maxShorts, maxDuration } =
-      await request.json();
+    const {
+      url,
+      settings,
+      compositionId,
+      cookiesKey,
+      maxShorts,
+      maxDuration,
+      videoTitle,
+    } = await request.json();
 
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -71,6 +78,7 @@ export async function POST(request: Request) {
       Item: {
         id: { S: requestId },
         userId: { S: userId },
+        videoTitle: { S: videoTitle },
         sourceUrl: { S: url },
         compositionId: { S: compositionId },
         status: { S: 'PROCESSING' },

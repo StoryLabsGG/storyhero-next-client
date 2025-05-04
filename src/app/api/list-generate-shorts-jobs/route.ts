@@ -35,6 +35,7 @@ export async function GET(request: Request) {
     const jobs = response.Items.map((item) => ({
       id: item.id.S,
       userId: item.userId.S,
+      videoTitle: item.videoTitle?.S || 'Untitled Video',
       sourceUrl: item.sourceUrl.S,
       createdAt: Number(item.createdAt.N),
     }));
