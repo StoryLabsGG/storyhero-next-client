@@ -131,7 +131,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Projects section - Added min-width */}
-        <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm xl:max-w-xl 2xl:max-w-[90rem] dark:border-gray-700/15 dark:bg-gray-800/10">
+        <div className="mx-auto max-w-6xl rounded-xl border border-gray-200/30 bg-gray-50/30 p-6 shadow-sm backdrop-blur-sm lg:max-w-7xl xl:max-w-[85rem] 2xl:max-w-[90rem] dark:border-gray-700/15 dark:bg-gray-800/10">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex space-x-2">
               <Button

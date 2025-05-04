@@ -12,15 +12,12 @@ export default function NavLinks() {
 
   return (
     <div className="flex gap-6">
-      <Link href="/pricing" className="hover:text-primary transition-colors">
-        Pricing
-      </Link>
-      <Link
-        href="https://storyhero.tolt.io"
-        className="hover:text-primary transition-colors"
-      >
-        Affiliate
-      </Link>
+      <Button variant="ghost" asChild>
+        <Link href="/pricing">Pricing</Link>
+      </Button>
+      <Button variant="ghost" asChild>
+        <Link href="https://storyhero.tolt.io">Affiliate</Link>
+      </Button>
     </div>
   );
 }

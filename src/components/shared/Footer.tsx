@@ -83,7 +83,9 @@ const Footer = () => {
                   <h4 className="m-0 text-left text-xl font-bold">StoryHero</h4>
                 </div>
                 <div className="mt-3">
-                  {/* <p className="text-left"></p> */}
+                  <p className="text-left">
+                    An AI Video Editor Built for Gamers
+                  </p>
                   <p>Made with ❤️</p>
                 </div>
               </div>

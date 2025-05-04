@@ -30,8 +30,7 @@ const questions: FAQProps[] = [
       'Yes! A lot of our users upload their footage to YouTube as unlisted and then paste the link into StoryHero. Alternatively, you can upload straight from your computer with the "Upload" button.',
   },
   {
-    question:
-      'Why should I post shorts when I&apos;m making long-form content?',
+    question: "Why should I post shorts when I'm making long-form content?",
     answer:
       'Short-form content is growing exponentially and like it or not, social media platforms like YouTube are pushing them hard! StoryHero was created as an easy way for creators to adapt and tap into a new viewer base of millions of people.',
   },
