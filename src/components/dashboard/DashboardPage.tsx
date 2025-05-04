@@ -1,33 +1,16 @@
 'use client';
 
 import { useDebounce } from '@uidotdev/usehooks';
-import {
-  CloudUploadIcon,
-  FilterIcon,
-  LinkIcon,
-  PlusIcon,
-  RefreshCwIcon,
-  SearchIcon,
-  UploadIcon,
-  VideoIcon,
-} from 'lucide-react';
-import Image from 'next/image';
+import { PlusIcon, RefreshCwIcon, SearchIcon, VideoIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import VideoUploader, { VideoData } from '@/components/dashboard/VideoUploader';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 
 interface GenerateShortsJob {
   id: string;
@@ -247,7 +230,7 @@ export default function DashboardPage() {
               ))}
             </div>
           ) : jobs.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 py-6 md:grid-cols-3 lg:grid-cols-4">
               {jobs.map((job) => (
                 <Link href={`/shorts/${job.id}`} key={job.id} className="group">
                   <Card className="bg-storyhero-bg-elevated hover:border-storyhero-accent-indigo/50 cursor-pointer overflow-hidden border-0 transition-all group-hover:-translate-y-1 group-hover:shadow-md hover:border">
