@@ -4,14 +4,17 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { dynamoDbClient } from '@/lib/aws';
 
+import { getSecret } from './clients/ssmClient';
+import { USERS_TABLE } from './constants';
+
 const ddbDocClient = DynamoDBDocument.from(dynamoDbClient);
 
 const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: await getSecret('NEXTAUTH_SECRET'),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: await getSecret('GOOGLE_CLIENT_ID'),
+      clientSecret: await getSecret('GOOGLE_CLIENT_SECRET'),
     }),
   ],
   pages: {
@@ -25,7 +28,7 @@ const authOptions: NextAuthOptions = {
       try {
         // Check if user exists
         const existingUser = await ddbDocClient.query({
-          TableName: process.env.USERS_TABLE_NAME!,
+          TableName: USERS_TABLE,
           IndexName: 'EmailIndex',
           KeyConditionExpression: 'email = :email',
           ExpressionAttributeValues: {
@@ -35,7 +38,7 @@ const authOptions: NextAuthOptions = {
 
         if (!existingUser.Items?.length) {
           await ddbDocClient.put({
-            TableName: process.env.USERS_TABLE_NAME!,
+            TableName: USERS_TABLE,
             Item: {
               id: user.id || crypto.randomUUID(),
               email: user.email,

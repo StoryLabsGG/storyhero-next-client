@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import ShortsDetailPage from '@/app/(dashboard)/shorts/[id]/ShortsDetailPage';
 import { dynamoDbClient } from '@/lib/aws';
+import { GENERATE_SHORTS_JOBS_TABLE } from '@/lib/constants';
 
 interface PageProps {
   params: Promise<{
@@ -13,7 +14,7 @@ interface PageProps {
 async function getShortsJob(id: string) {
   try {
     const command = new GetItemCommand({
-      TableName: process.env.GENERATE_SHORTS_JOBS_TABLE_NAME,
+      TableName: GENERATE_SHORTS_JOBS_TABLE,
       Key: {
         id: { S: id },
       },

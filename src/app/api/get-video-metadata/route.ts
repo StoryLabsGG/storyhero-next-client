@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import { getSecret } from '@/lib/clients/ssmClient';
+
 // Helper function to extract YouTube video ID from various URL formats
 function extractYoutubeVideoId(url: string): string | null {
   // Handle youtu.be format
@@ -20,7 +22,7 @@ function extractYoutubeVideoId(url: string): string | null {
 // Function to get YouTube video details using YouTube Data API
 async function getYouTubeVideoDetailsWithAPI(videoId: string) {
   try {
-    const apiKey = process.env.YOUTUBE_API_KEY;
+    const apiKey = await getSecret('YOUTUBE_API_KEY');
 
     if (!apiKey) {
       console.warn(

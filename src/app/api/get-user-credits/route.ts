@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
 import { dynamoDbClient } from '@/lib/aws';
+import { USERS_TABLE } from '@/lib/constants';
 
 export async function GET() {
   try {
@@ -18,7 +19,7 @@ export async function GET() {
     }
 
     const command = new GetItemCommand({
-      TableName: process.env.USERS_TABLE_NAME,
+      TableName: USERS_TABLE,
       Key: {
         id: { S: userId },
       },

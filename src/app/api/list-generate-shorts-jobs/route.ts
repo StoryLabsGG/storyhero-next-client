@@ -2,6 +2,7 @@ import { QueryCommand } from '@aws-sdk/client-dynamodb';
 import { NextResponse } from 'next/server';
 
 import { dynamoDbClient } from '@/lib/aws';
+import { GENERATE_SHORTS_JOBS_TABLE } from '@/lib/constants';
 
 export async function GET(request: Request) {
   try {
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
     }
 
     const command = new QueryCommand({
-      TableName: process.env.GENERATE_SHORTS_JOBS_TABLE_NAME,
+      TableName: GENERATE_SHORTS_JOBS_TABLE,
       IndexName: 'UserIndex',
       KeyConditionExpression: 'userId = :userId',
       ExpressionAttributeValues: {

@@ -1,7 +1,9 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { EventBridgeClient } from '@aws-sdk/client-eventbridge';
 import { S3Client } from '@aws-sdk/client-s3';
+import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import { SFNClient } from '@aws-sdk/client-sfn';
+import { SSMClient } from '@aws-sdk/client-ssm';
 
 const isLocalEnvironment = process.env.NODE_ENV === 'development';
 
@@ -31,3 +33,5 @@ export const dynamoDbClient = new DynamoDBClient(getAwsConfig());
 export const s3Client = new S3Client(getAwsConfig());
 export const sfnClient = new SFNClient(getAwsConfig());
 export const eventBridgeClient = new EventBridgeClient(getAwsConfig());
+export const secretsManagerClient = new SecretsManagerClient(getAwsConfig());
+export const ssmClient = new SSMClient(getAwsConfig());

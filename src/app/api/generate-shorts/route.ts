@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { authOptions } from '@/lib/auth';
 import { dynamoDbClient } from '@/lib/aws';
 import { publishEvent } from '@/lib/clients/eventbridge';
+import { GENERATE_SHORTS_JOBS_TABLE } from '@/lib/constants';
 
 export async function POST(request: Request) {
   try {
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
       : { NULL: true };
 
     const putCommand = new PutItemCommand({
-      TableName: process.env.GENERATE_SHORTS_JOBS_TABLE_NAME,
+      TableName: GENERATE_SHORTS_JOBS_TABLE,
       Item: {
         id: { S: requestId },
         userId: { S: userId },
