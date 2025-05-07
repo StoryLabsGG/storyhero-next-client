@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
 import { dynamoDbClient } from '@/lib/aws';
-import { USERS_TABLE } from '@/lib/constants';
+import { USER_CREDITS_TABLE } from '@/lib/constants';
 
 export async function GET() {
   try {
@@ -19,9 +19,9 @@ export async function GET() {
     }
 
     const command = new GetItemCommand({
-      TableName: USERS_TABLE,
+      TableName: USER_CREDITS_TABLE,
       Key: {
-        id: { S: userId },
+        userId: { S: userId },
       },
       ProjectionExpression: 'credits',
     });

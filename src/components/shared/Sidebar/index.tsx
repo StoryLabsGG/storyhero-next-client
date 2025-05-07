@@ -184,10 +184,7 @@ export function AppSidebar() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                       <DropdownMenuItem asChild>
-                        <Link
-                          href="/subscription"
-                          className="flex items-center"
-                        >
+                        <Link href="/checkout" className="flex items-center">
                           <CreditCard className="mr-2 h-4 w-4" />
                           <span>Subscription</span>
                         </Link>
@@ -213,19 +210,10 @@ export function AppSidebar() {
                     className="w-full border-white/30 text-xs font-medium text-white hover:bg-white/10"
                     asChild
                   >
-                    <Link href="/subscription">Upgrade to Pro</Link>
+                    <Link href="/checkout">Upgrade to Pro</Link>
                   </Button>
                 </div>
               )}
-              {/* <div className="mb-1.5 flex items-center justify-between text-xs font-medium">
-                <span className="text-foreground/70">Storage</span>
-                <span className="text-foreground/80">
-                  0 / {isPaid ? '50' : '5'} GB
-                </span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-neutral-700/20">
-                <div className="h-full w-0 rounded-full bg-gradient-to-r from-blue-500 to-violet-500"></div>
-              </div> */}
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ export async function GET(request: Request) {
       id: item.id.S,
       userId: item.userId.S,
       videoTitle: item.videoTitle?.S || 'Untitled Video',
+      thumbnailUrl: item.thumbnailUrl?.S || '',
       sourceUrl: item.sourceUrl.S,
       createdAt: Number(item.createdAt.N),
     }));

@@ -24,6 +24,9 @@ export function CreditsModule({ credits }: CreditsModuleProps) {
   // Calculate expiration date (15 days from now for this example)
   const expirationDays = 15;
 
+  // Format credits with commas
+  const formattedCredits = credits.toLocaleString();
+
   return (
     <div className="flex items-center gap-2">
       <DropdownMenu>
@@ -32,7 +35,7 @@ export function CreditsModule({ credits }: CreditsModuleProps) {
             <DropdownMenuTrigger asChild>
               <div className="flex cursor-pointer items-center gap-1.5 rounded-md bg-transparent px-3 py-1 text-white hover:bg-zinc-800">
                 <Coins className="h-5 w-5 text-amber-400" />
-                <span className="font-medium">{credits}</span>
+                <span className="font-medium">{formattedCredits}</span>
               </div>
             </DropdownMenuTrigger>
           </TooltipTrigger>
@@ -61,7 +64,7 @@ export function CreditsModule({ credits }: CreditsModuleProps) {
             <span className="text-zinc-400">Free credits</span>
             <div className="flex items-center gap-1.5">
               <Coins className="h-4 w-4 text-amber-400" />
-              <span className="text-lg font-semibold">{credits}</span>
+              <span className="text-lg font-semibold">{formattedCredits}</span>
             </div>
           </div>
 

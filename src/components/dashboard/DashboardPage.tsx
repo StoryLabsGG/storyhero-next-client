@@ -19,6 +19,7 @@ interface GenerateShortsJob {
   userId: string;
   sourceUrl: string;
   videoTitle: string;
+  thumbnailUrl: string;
   createdAt: number;
 }
 
@@ -105,16 +106,26 @@ export default function DashboardPage() {
     }
   };
 
+  const backfillVideoMetadata = async (jobId: string) => {
+    await fetch(`/api/backfill-video-metadata`, {
+      method: 'POST',
+      body: JSON.stringify({ jobId }),
+    });
+  };
+
   useEffect(() => {
     if (session?.user?.id) {
       fetchJobs();
     }
   }, [session]);
 
-  const handleGenerateClips = () => {
-    // Logic to handle generating clips
-    window.location.href = '/generate-shorts';
-  };
+  useEffect(() => {
+    for (const job of jobs) {
+      if (!job.thumbnailUrl || !job.videoTitle) {
+        backfillVideoMetadata(job.id);
+      }
+    }
+  }, [jobs]);
 
   return (
     <div className="bg-storyhero-bg-base text-storyhero-text-primary overflow-hidden">
@@ -194,6 +205,7 @@ export default function DashboardPage() {
                   key={job.id}
                   id={job.id}
                   videoTitle={job.videoTitle}
+                  thumbnailUrl={job.thumbnailUrl}
                   sourceUrl={job.sourceUrl}
                   createdAt={job.createdAt}
                   daysLeft={18}

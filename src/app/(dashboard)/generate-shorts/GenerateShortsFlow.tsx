@@ -118,7 +118,6 @@ export default function GenerateShortsFlow({
         },
         body: JSON.stringify({
           url: formData.url,
-          videoTitle: formData.videoTitle || 'Untitled Video',
           settings: {},
           compositionId: 'DefaultShort',
           cookiesKey: '',

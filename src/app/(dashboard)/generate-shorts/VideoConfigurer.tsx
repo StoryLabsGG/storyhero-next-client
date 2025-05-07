@@ -483,7 +483,7 @@ export default function VideoConfigurer({
               </span>
             </div>
             <div className="text-storyhero-accent-indigo text-sm font-semibold">
-              100
+              {Math.max(1, Math.ceil((trimEndTime - trimStartTime) / 60))}
             </div>
           </div>
 

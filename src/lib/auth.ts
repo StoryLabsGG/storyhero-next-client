@@ -4,17 +4,16 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { dynamoDbClient } from '@/lib/aws';
 
-import { getSecret } from './clients/ssmClient';
 import { USERS_TABLE } from './constants';
 
 const ddbDocClient = DynamoDBDocument.from(dynamoDbClient);
 
 const authOptions: NextAuthOptions = {
-  secret: await getSecret('NEXTAUTH_SECRET'),
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
-      clientId: await getSecret('GOOGLE_CLIENT_ID'),
-      clientSecret: await getSecret('GOOGLE_CLIENT_SECRET'),
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   pages: {

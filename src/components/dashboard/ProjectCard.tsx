@@ -10,6 +10,7 @@ interface ProjectCardProps {
   id: string;
   sourceUrl?: string;
   videoTitle?: string;
+  thumbnailUrl?: string;
   videoAuthor?: string;
   createdAt: number;
   daysLeft?: number;
@@ -25,13 +26,12 @@ export default function ProjectCard({
   sourceUrl,
   videoTitle,
   videoAuthor,
+  thumbnailUrl,
   createdAt,
   daysLeft = 5,
   isLoading = false,
   onClick,
 }: ProjectCardProps) {
-  const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
-
   // Format date for display
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('en-US', {
@@ -51,39 +51,6 @@ export default function ProjectCard({
     }
   };
 
-  useEffect(() => {
-    if (sourceUrl) {
-      if (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be')) {
-        // Fetch thumbnail from API for YouTube videos
-        fetch(`/api/get-video-metadata?url=${encodeURIComponent(sourceUrl)}`)
-          .then((response) => {
-            if (!response.ok) throw new Error('Failed to fetch video metadata');
-            return response.json();
-          })
-          .then((data) => {
-            setThumbnail(data.thumbnail);
-          })
-          .catch((error) => {
-            console.error('Error fetching thumbnail:', error);
-            // Extract YouTube ID for fallback thumbnail
-            try {
-              let videoId;
-              if (sourceUrl.includes('youtu.be')) {
-                videoId = sourceUrl.split('/').pop()?.split('?')[0];
-              } else {
-                videoId = new URL(sourceUrl).searchParams.get('v');
-              }
-              if (videoId) {
-                setThumbnail(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
-              }
-            } catch (e) {
-              console.error('Error extracting video ID:', e);
-            }
-          });
-      }
-    }
-  }, [sourceUrl]);
-
   return (
     <Link
       href={`/shorts/${id}`}
@@ -99,10 +66,10 @@ export default function ProjectCard({
           )}
 
           <div className="from-storyhero-bg-higher to-storyhero-bg-base absolute inset-0 bg-gradient-to-br">
-            {thumbnail ? (
+            {thumbnailUrl ? (
               <div className="relative h-full w-full">
                 <img
-                  src={thumbnail}
+                  src={thumbnailUrl}
                   alt={videoTitle || 'Video thumbnail'}
                   className="h-full w-full object-cover"
                 />

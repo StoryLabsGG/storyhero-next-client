@@ -7,18 +7,15 @@ import { authOptions } from '@/lib/auth';
 import { dynamoDbClient } from '@/lib/aws';
 import { publishEvent } from '@/lib/clients/eventbridge';
 import { GENERATE_SHORTS_JOBS_TABLE } from '@/lib/constants';
+import {
+  extractYoutubeVideoId,
+  getYouTubeVideoDetailsWithAPI,
+} from '@/lib/youtube';
 
 export async function POST(request: Request) {
   try {
-    const {
-      url,
-      settings,
-      compositionId,
-      cookiesKey,
-      maxShorts,
-      maxDuration,
-      videoTitle,
-    } = await request.json();
+    const { url, settings, compositionId, cookiesKey, maxShorts, maxDuration } =
+      await request.json();
 
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -26,8 +23,6 @@ export async function POST(request: Request) {
 
     const session = await getServerSession(authOptions);
     const userId = session?.user?.id;
-
-    console.log(session);
 
     if (!userId) {
       return NextResponse.json(
@@ -74,12 +69,18 @@ export async function POST(request: Request) {
         }
       : { NULL: true };
 
+    const videoId = extractYoutubeVideoId(url);
+    const videoMetadata = await getYouTubeVideoDetailsWithAPI(videoId || '');
+    const videoTitle = videoMetadata.title;
+    const thumbnailUrl = videoMetadata.thumbnail;
+
     const putCommand = new PutItemCommand({
       TableName: GENERATE_SHORTS_JOBS_TABLE,
       Item: {
         id: { S: requestId },
         userId: { S: userId },
         videoTitle: { S: videoTitle },
+        thumbnailUrl: { S: thumbnailUrl },
         sourceUrl: { S: url },
         compositionId: { S: compositionId },
         status: { S: 'PROCESSING' },

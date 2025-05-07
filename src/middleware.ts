@@ -7,8 +7,5 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: [
-    // '/dashboard/:path*',
-    '/generate-shorts/:path*',
-  ],
+  matcher: ['/dashboard/:path*', '/generate-shorts/:path*'],
 };
