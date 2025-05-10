@@ -29,8 +29,8 @@ export async function GET() {
     const response = await dynamoDbClient.send(command);
 
     // If credits field doesn't exist, return 0
-    const credits = response.Item?.credits?.N
-      ? parseInt(response.Item.credits.N, 10)
+    const credits = response.Item?.credits?.S
+      ? parseInt(response.Item.credits.S, 10)
       : 0;
 
     return NextResponse.json({ credits });
