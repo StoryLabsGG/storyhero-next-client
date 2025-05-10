@@ -1,45 +1,19 @@
-import { DefaultShort } from '@storylabsgg/storybox-remotion/src/compositions/default-short';
+import { DefaultShortProps } from '@storylabsgg/storybox-remotion/src/compositions/default-short';
 import { MoveLeft } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { defaultTextStyles } from '@/lib/constants';
+import { PresetData } from '@/types/preset';
 
 import PresetFields from './PresetFields';
 import PresetPreview from './PresetPreview';
-
-interface PresetData {
-  id: string;
-  name: string;
-  description: string;
-  composition: {
-    durationInFrames: number;
-    fps: number;
-    width: number;
-    height: number;
-    component: React.ComponentType<any>;
-    inputProps: any;
-  };
-}
 
 interface PresetsCreatorProps {
   onPresetCreate: (preset: PresetData) => void;
   onClose: () => void;
 }
-
-const defaultTextStyles = {
-  text: 'Sample Text',
-  position: 25,
-  font: 'DM Sans',
-  size: 80,
-  style: 'default',
-  color: {
-    text: 'rgba(255, 255, 255, 1)',
-    background: 'rgba(0, 0, 0, 1)',
-    highlight: 'rgba(255, 215, 0, 1)',
-  },
-  shadow: true,
-  enabled: true,
-};
 
 export default function PresetsCreator({
   onPresetCreate,
@@ -61,7 +35,9 @@ export default function PresetsCreator({
     videoZoom: 0,
   });
 
-  const inputProps = {
+  const { data: session } = useSession();
+
+  const inputProps: DefaultShortProps = {
     videoUrl:
       'https://ddgwsqpgp6ybu.cloudfront.net/generate-shorts/e545de26-1f17-4301-a8e7-11376d0f8e59/raw-download/1745201891-e545de26-1f17-4301-a8e7-11376d0f8e59.mp4',
     title: presetFields.title.text,
@@ -72,7 +48,7 @@ export default function PresetsCreator({
     titleStyle: presetFields.title.style,
     titleShadow: presetFields.title.shadow,
     addCaptions: presetFields.captions.enabled,
-    captionStyle: presetFields.captions.style || 'default',
+    // captionStyle: presetFields.captions.style || 'normal',
     captionAnimation: presetFields.captions.animation,
     captionMultiple: presetFields.captions.multipleWords,
     captionPosition: presetFields.captions.position,
@@ -85,22 +61,19 @@ export default function PresetsCreator({
   };
 
   const handleSave = () => {
-    const completeInputProps = {
-      ...inputProps,
-    };
+    if (!session?.user?.id) {
+      console.error('User not authenticated');
+      return;
+    }
 
     onPresetCreate({
-      id: Date.now().toString(),
       name: presetFields.name,
       description: presetFields.description,
-      composition: {
-        durationInFrames: 300,
-        fps: 30,
-        width: 1080,
-        height: 1920,
-        component: DefaultShort,
-        inputProps: completeInputProps,
-      },
+      inputProps: inputProps,
+      id: Date.now().toString(),
+      userId: session.user.id,
+      compositionId: 'DefaultShort',
+      createdAt: Date.now(),
     });
   };
 
@@ -131,17 +104,3 @@ export default function PresetsCreator({
     </div>
   );
 }
-
-export type TextStyles = typeof defaultTextStyles;
-export type PresetFieldsState = {
-  name: string;
-  description: string;
-  title: TextStyles;
-  captions: TextStyles & {
-    multipleWords: boolean;
-    animation: boolean;
-    enabled: boolean;
-  };
-  videoBackground: string;
-  videoZoom: number;
-};

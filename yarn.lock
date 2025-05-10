@@ -2078,6 +2078,13 @@
   dependencies:
     tslib "^2.6.2"
 
+"@aws-sdk/util-dynamodb@^3.806.0":
+  version "3.806.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/util-dynamodb/-/util-dynamodb-3.806.0.tgz#7a27f15e2edbb0712b9ba51966c389a4b827e703"
+  integrity sha512-R0oAO0/g3GmNdHyjjbeQoojZSbz4L7pRX0HOjTxCQNQ1W05HO2kcK+3VZ+CdEbg6P5svHfTe4fazbHoO4hjl0A==
+  dependencies:
+    tslib "^2.6.2"
+
 "@aws-sdk/util-endpoints@3.787.0":
   version "3.787.0"
   resolved "https://registry.npmjs.org/@aws-sdk/util-endpoints/-/util-endpoints-3.787.0.tgz"

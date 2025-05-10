@@ -26,8 +26,7 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-import { PresetFieldsState } from './PresetsCreator';
+import { PresetFieldsState } from '@/types/preset';
 
 interface PresetFieldsProps {
   presetFields: PresetFieldsState;
