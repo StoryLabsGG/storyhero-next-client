@@ -128,7 +128,7 @@ export default function DashboardPage() {
   }, [jobs]);
 
   return (
-    <div className="bg-storyhero-bg-base text-storyhero-text-primary overflow-hidden">
+    <div className="bg-storyhero-bg-base text-storyhero-text-primary w-full overflow-hidden">
       {/* Main content - adjusted padding */}
       <main className="w-full px-4 py-6">
         <div className="mx-auto mt-12 mb-16 flex max-w-6xl justify-center">

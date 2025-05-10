@@ -165,15 +165,16 @@ export function AppSidebar() {
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-sm font-semibold text-white shadow-sm">
                 {getInitial(session?.user?.name, session?.user?.email)}
               </div>
-              <div className="ml-3 flex-1">
+              <div className="ml-1">
                 <div className="flex items-center justify-between">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="h-auto rounded-md px-2 py-1 hover:bg-neutral-800/30"
+                        className="h-auto gap-1 rounded-md px-2 py-1 hover:bg-neutral-800/30"
+                        title={session?.user?.email ?? 'User'}
                       >
-                        <span className="text-foreground truncate text-sm font-medium">
+                        <span className="text-foreground max-w-[125px] truncate text-sm font-medium">
                           {formatDisplayName(
                             session?.user?.name,
                             session?.user?.email
