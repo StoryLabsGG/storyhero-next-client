@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import PresetsCreator from './PresetsCreator';
+import PresetsCreator from './PresetsCreator/PresetsCreator';
 
 export default function PresetsPage() {
   const [isCreating, setIsCreating] = useState(false);
@@ -16,7 +16,12 @@ export default function PresetsPage() {
   };
 
   if (isCreating) {
-    return <PresetsCreator onPresetCreate={handlePresetCreate} />;
+    return (
+      <PresetsCreator
+        onPresetCreate={handlePresetCreate}
+        onClose={() => setIsCreating(false)}
+      />
+    );
   }
 
   return (
